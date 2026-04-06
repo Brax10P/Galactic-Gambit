@@ -14,7 +14,7 @@
 #include <iostream>
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Galactic Gambit");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Galactic Gambit");
     window.setPosition({50,50});
     Game game;
    
