@@ -9,6 +9,27 @@
  * 
  */
 
+#include "../header/game.h"
+#include <SFML/Graphics.hpp>
+#include <iostream>
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(640, 480), "Galactic Gambit");
+    window.setPosition({50,50});
+    Game game;
+   
+    sf::Clock clock; 
+
+    while(window.isOpen())
+    {
+        float dt=clock.restart().asSeconds();
+        game.handleInput(window);
+        game.update(dt, window);
+        game.render(window);
+    }
+
+    return 0;
+}
 // Gameplay Loop:
 // 1. Start by asking player amount to bet
 // 2. Deals cards for both dealer and player (hides one of the dealer's cards)
