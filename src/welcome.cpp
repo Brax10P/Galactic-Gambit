@@ -1,7 +1,7 @@
 #include "../header/welcome.h"
 Welcome::Welcome()
 {
-    if (!mFont.loadFromFile("assets/college.ttf"))
+    if (!mFont.loadFromFile("assets/VintageCharm-Regular.otf"))
     {
         std::cout<<"Error opening file\n";
         exit(2);
@@ -10,13 +10,13 @@ Welcome::Welcome()
     //choose the font size based on button size (I choose half)
     mHeader.setCharacterSize(20);
     // //set label
-    mHeader.setString("Welcome to My Game");
+    mHeader.setString("Welcome to Galactic Gambit");
 
     mRules.setFont(mFont);
     //choose the font size based on button size (I choose half)
     mRules.setCharacterSize(16);
     // //set label
-    mRules.setString("1. rulee 1\n2. rule 2\netc.\n");
+    mRules.setString("1. Beat the Dealer in Classic BlackJack!\n2. Don't Run out of Space Money!\n");
     mRules.setPosition({10, 30});
 
     mStart.setText("Start");
