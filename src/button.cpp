@@ -10,13 +10,16 @@ Button::Button():Button("Push me!", {300,100}, {1,1}, sf::Color::White)
     unsigned int fontSize = mButton.getGlobalBounds().height/2;
     mText.setCharacterSize(fontSize);
     mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    mText.setPosition(
+        mPosition.x,
+        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
+    );
 
 }
     //Constructor that sets button label to s, button position to the position,  button size to size (given in pixels), and button color to color.
 Button::Button(std::string s, sf::Vector2f position, sf::Vector2f size, sf::Color color)
 {
-    if (!mTexture.loadFromFile("assets/button.png"))
+    if (!mTexture.loadFromFile("assets/normalbutton.png"))
     {
         std::cout<<"Error opening file\n";
         exit(1);
@@ -25,7 +28,7 @@ Button::Button(std::string s, sf::Vector2f position, sf::Vector2f size, sf::Colo
     mButton.setTexture(mTexture);
     
     //get size of image
-    sf::Vector2u imageSize=mTexture.getSize();
+    sf::Vector2u imageSize = mTexture.getSize();
     // //change origin to the center of the image (makes rotation easy)
     mButton.setOrigin(imageSize.x/2, imageSize.y/2);
     // //set position
@@ -45,16 +48,19 @@ Button::Button(std::string s, sf::Vector2f position, sf::Vector2f size, sf::Colo
     }
     mText.setFont(mFont);
     //choose the font size based on button size (I choose half)
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    unsigned int fontSize = mButton.getGlobalBounds().height/4;
     mText.setCharacterSize(fontSize);
     // //set label
     mText.setString(s);
     //set origin to the middle
     mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
     //set position at the middle of the button
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    mText.setPosition(
+        mPosition.x,
+        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
+    );
     //choose colors
-    mTextNormal = sf::Color::Green;
+    mTextNormal = sf::Color::Blue;
     mTextHover = sf::Color::Red;
     mText.setFillColor(mTextNormal);
     mBtnState=normal;
@@ -66,11 +72,14 @@ void Button::setPosition(sf::Vector2f position)
     mButton.setPosition(mPosition.x,mPosition.y);
 
     //choose the font size based on button size (I choose half)
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    //unsigned int fontSize = mButton.getGlobalBounds().height/2;
     
     //set origin to the middle
     //set position at the middle of the button
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    mText.setPosition(
+        mPosition.x,
+        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
+    );
 }
 //change button size to size (what else needs to be changed?)
 void Button::setSize(sf::Vector2f  size)
@@ -83,7 +92,10 @@ void Button::setSize(sf::Vector2f  size)
     //set origin to the middle
     mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
     //set position at the middle of the button
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    mText.setPosition(
+        mPosition.x,
+        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
+    );
 }
 
 /**
@@ -103,8 +115,11 @@ void Button::setText(std::string s)
     //set origin to the middle
     mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
     //set position at the middle of the button
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    //unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    mText.setPosition(
+        mPosition.x,
+        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
+    );
 }
 
 bool Button::handleInput(sf::Event& e, sf::RenderWindow& window)
@@ -166,13 +181,15 @@ void Button::update()
     case normal:
         mButton.setRotation(0);
         mText.setFillColor(mTextNormal);
+        mTexture.loadFromFile("assets/normalbutton.png");
         break;
     case hovered:
         mButton.setRotation(0);
         mText.setFillColor(mTextHover);
+        mTexture.loadFromFile("assets/hoveredbutton.png");
         break;
     case clicked:
-        mButton.setRotation(180);
+        //mButton.setRotation(180);
         mText.setFillColor(mTextHover);
         break;
     }
