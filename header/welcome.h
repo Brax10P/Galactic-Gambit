@@ -16,7 +16,10 @@ private:
     sf::Text mRules;
     sf::Text mHeader;
     sf::Font mFont;
-    Button mStart;  
+    Button mStart; 
+    Button mHowTo; 
+    sf::RectangleShape mBackDrop;
+    sf::Texture mBackground;
 };
 
 #endif
