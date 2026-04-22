@@ -199,3 +199,21 @@ void Button::draw(sf::RenderTarget& target,sf::RenderStates states) const
     target.draw(mButton, states);
     target.draw(mText, states);
 }
+
+/**
+ * @brief function to change text size of button
+ * 
+ * @param size 
+ */
+void Button::setTextSize (int size)
+{
+    mText.setCharacterSize(size);
+    mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
+    //set position at the middle of the button
+    //unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    mText.setPosition
+    (
+        mPosition.x,
+        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
+    );
+}
