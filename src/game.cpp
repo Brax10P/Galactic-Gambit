@@ -27,6 +27,10 @@ void Game::handleInput(sf::RenderWindow& window)
 //std::cout<<"Game::handleInput case game" <<std::endl;
             mGameState = mGame.handleInput(event, window);
             break;
+        case howTo:
+            mGameState = mHowTo.handleInput(event, window);
+            break;
+
         case results:
 //std::cout<<"Game::handleInput case result" <<std::endl;
             mGameState=mResults.handleInput(event, window);
@@ -56,6 +60,10 @@ void Game::update(double elapsedTime, sf::RenderWindow& window)
 //std::cout<<"Game::update case result" <<std::endl;
             mResults.update();
             break;
+        case howTo:
+            mHowTo.update();
+            break;
+
         case quit:
 //std::cout<<"Game::update case quit" <<std::endl;
             window.close();
@@ -79,6 +87,9 @@ void Game::render(sf::RenderWindow& window)
             break;
         case results:
             mResults.render(window);
+            break;
+        case howTo:
+            mHowTo.render(window);
             break;
         case quit:
             break;          

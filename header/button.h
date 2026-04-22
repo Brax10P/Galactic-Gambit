@@ -26,6 +26,7 @@ public:
     void setColor(sf::Color btnColor);
     //change button label to s (what else needs to be changed?)
     void setText(std::string s);
+    void setTextSize (int size);
     void setColorTextNormal(sf::Color textNormalColor){mTextNormal = textNormalColor;};
     void setColorTextHover(sf::Color textHoverColor){mTextHover = textHoverColor;};
 

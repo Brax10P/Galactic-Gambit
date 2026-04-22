@@ -3,12 +3,15 @@
 CC = g++
 FLAGS = -Wall -std=c++17 
 LINKS = -lsfml-graphics -lsfml-window -lsfml-system 
-game: obj/main.o obj/game.o obj/welcome.o obj/play.o  obj/button.o obj/results.o
+game: obj/main.o obj/game.o obj/welcome.o obj/play.o obj/button.o obj/results.o obj/howto.o
 	$(CC) $(FLAGS) $^ -o $@ $(LINKS)
 
 obj/main.o: src/main.cpp header/game.h
 	$(CC) $(FLAGS) -c $< -o obj/main.o
 
+obj/howto.o: src/howto.cpp header/howto.h
+	$(CC) $(FLAGS) -c $< -o obj/howto.o
+	
 obj/game.o: src/game.cpp header/game.h header/states.h header/welcome.h header/play.h header/results.h
 	$(CC) $(FLAGS) -c $< -o obj/game.o
 

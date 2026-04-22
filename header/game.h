@@ -11,6 +11,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include "states.h"
+#include "howto.h"
 #include "welcome.h"
 #include "play.h"
 #include "results.h"
@@ -42,6 +43,7 @@ private:
     Welcome mWelcomeScreen;
     Play mGame;
     Results mResults;
+    HowTo mHowTo;
    
 };
 
