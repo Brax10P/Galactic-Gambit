@@ -25,6 +25,9 @@ public:
     // new code
     void setAlienHead(alienheadstate state);
 
+    void setChipStacks(int clickedChip);
+    void displayChipStacks();
+
 private:
     //legacy code from cherry lab;
     Button mRestart;  
@@ -33,20 +36,48 @@ private:
     Button mExit;
     sf::RectangleShape mFrame;
     
-    //newly added code for galactic gambit
+    // newly added code for galactic gambit
     sf::RectangleShape mBackDrop;
     sf::Texture mBackground;
 
+    // alien head class variables
     int mTileHeight;
     int mTileWidth;
 
     float mAlienBaseX;
     float mAlienBaseY;
+
+    int mMoon1;
+    int mVenus5;
+    int mEarth10;
+    int mMars20;
+    int mSaturn50;
+    int mNeptune100;
    
     sf::Texture mAlienTexture;
     sf::Sprite mAlienHead;
 
+    // individual chip stacks class variables
+    sf::Texture mMoon1Texture;
+    sf::Sprite mMoon1Stack;
+
+    sf::Texture mVenus5Texture;
+    sf::Sprite mVenus5Stack;
+
+    sf::Texture mEarth10Texture;
+    sf::Sprite mEarth10Stack;
+
+    sf::Texture mMars20Texture;
+    sf::Sprite mMars20Stack;
+
+    sf::Texture mSaturn50Texture;
+    sf::Sprite mSaturn50Stack;
+
+    sf::Texture mNeptune100Texture;
+    sf::Sprite mNeptune100Stack;
 
 };
+
+
 
 #endif

@@ -17,6 +17,12 @@ Play::Play()
         exit(2);
     }
 
+    if (!mChipsTexture.loadFromFile("assets/game screen/chip stacks png.png"))
+    {
+        std::cout << "Error opening alien head file\n";
+        exit(2);
+    }
+
     // attaches texture to sprite
     mAlienHead.setTexture(mAlienTexture);
 
@@ -40,6 +46,28 @@ Play::Play()
 
     // sets starting expression
     setAlienHead(neutral);
+
+
+
+    // code below here for setting base chip stack stuff
+    
+    // attaches textures to sprites
+    // each chip stack sprite is changed by shifting the texture over to the next stack thus incrementing 1 chip at a time
+    
+    mMoon1Stack.setTexture(mMoon1Texture);
+    mVenus5Stack.setTexture(mVenus5Texture);
+    mEarth10Stack.setTexture(mEarth10Texture);
+    mMars20Stack.setTexture(mMars20Texture);
+    mSaturn50Stack.setTexture(mSaturn50Texture);
+    mNeptune100Stack.setTexture(mNeptune100Texture);
+    
+
+    // gets image size
+    sf::Vector2u size = mMoon1Texture.getSize();
+
+    // calculate tile size so we dont have to manually pinpoint each heads pixels (3x3 grid)
+
+
     
     // legacy code bellow
     mFrame.setSize(sf::Vector2f(580, 400));
@@ -169,6 +197,74 @@ void Play::setAlienHead(alienheadstate state)
             mAlienHead.setPosition(x + 83.f, y + 10.f);
             break;
     }
+}
+
+void Play::setChipStacks(int clickedChip)
+{
+    int w = mTileWidth;
+    int h = mTileHeight;
+
+    float x = mAlienBaseX;
+    float y = mAlienBaseY;
+
+    if(clickedChip == 1)
+    {
+        mMoon1++;
+        displayChipStacks();
+    }
+    if(clickedChip == 5)
+    {
+        mVenus5++;
+        displayChipStacks();
+    }
+    if(clickedChip == 10)
+    {
+        mEarth10++;
+        displayChipStacks();
+    }
+    if(clickedChip == 20)
+    {
+        mMars20++;
+        displayChipStacks();
+    }
+    if(clickedChip == 50)
+    {
+        mSaturn50++;
+        displayChipStacks();
+    }
+    if(clickedChip == 100)
+    {
+        mNeptune100++;
+        displayChipStacks();
+    }
+}
+void Play::displayChipStacks()
+{
+    mAlienHead.setTextureRect(sf::IntRect(0, h, w, h));
+    mAlienHead.setPosition(x, y);
+    break;
+
+    mMoon1Stack.setTextureRect(sf::);
+    mMoon1Stack.setPosition(x,y);
+
+
+    sf::Texture mMoon1Texture;
+    sf::Sprite mMoon1Stack;
+
+    sf::Texture mVenus5Texture;
+    sf::Sprite mVenus5Stack;
+
+    sf::Texture mEarth10Texture;
+    sf::Sprite mEarth10Stack;
+
+    sf::Texture mMars20Texture;
+    sf::Sprite mMars20Stack;
+
+    sf::Texture mSaturn50Texture;
+    sf::Sprite mMSaturn50Stack;
+
+    sf::Texture mNeptune100Texture;
+    sf::Sprite mNeptune100Stack;
 }
 
 /**
