@@ -23,6 +23,42 @@ Play::Play()
         exit(2);
     }
 
+    //UFO buttons
+    m1.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
+    m1.setText("");
+    m1.setPosition({190, 555});
+    m1.setSize({200, 200});
+
+    m5.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
+    m5.setText("");
+    m5.setPosition({366, 555});
+    m5.setSize({200, 200});
+
+    m10.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
+    m10.setText("");
+    m10.setPosition({542, 555});
+    m10.setSize({200, 200});
+
+    m20.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
+    m20.setText("");
+    m20.setPosition({718, 555});
+    m20.setSize({200, 200});
+
+    m50.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
+    m50.setText("");
+    m50.setPosition({894, 555});
+    m50.setSize({200, 200});
+
+    m100.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
+    m100.setText("");
+    m100.setPosition({1070, 555});
+    m100.setSize({200, 200});
+    
+
+    
+    
+    
+
     // attaches texture to sprite
     mAlienHead.setTexture(mAlienTexture);
 
@@ -100,6 +136,12 @@ Play::Play()
 
 State Play::handleInput(sf::Event& e,  sf::RenderWindow& window)
 {
+    m1.handleInput(e, window);
+    m5.handleInput(e, window);
+    m10.handleInput(e, window);
+    m20.handleInput(e, window);
+    m50.handleInput(e, window);
+    m100.handleInput(e, window);
     if (mRules.handleInput(e, window)){
         return welcome;
     }
@@ -116,7 +158,12 @@ State Play::handleInput(sf::Event& e,  sf::RenderWindow& window)
 }
 void Play::update(double elapsedTime, sf::RenderWindow& window)
 {
-    
+    m1.update();
+    m5.update();
+    m10.update();
+    m20.update();
+    m50.update();
+    m100.update();
     mRules.update();
     mRestart.update();
     mResults.update();
@@ -126,8 +173,12 @@ void Play::render(sf::RenderWindow& window)
 {
     // new code for galactic
     window.draw(mBackDrop);
-
-    
+    window.draw(m1);
+    window.draw(m5);
+    window.draw(m10);
+    window.draw(m20);
+    window.draw(m50);
+    window.draw(m100);
     window.draw(mAlienHead);
     
     // legacy code 

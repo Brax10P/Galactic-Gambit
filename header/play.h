@@ -76,6 +76,15 @@ private:
     sf::Texture mNeptune100Texture;
     sf::Sprite mNeptune100Stack;
 
+    //ufo buttons
+    Button m1;
+    Button m5;
+    Button m10;
+    Button m20;
+    Button m50;
+    Button m100;
+    
+
 };
 
 
