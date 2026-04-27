@@ -18,8 +18,8 @@ private:
     sf::Font mFont;
     Button mStart; 
     Button mHowTo; 
-    sf::RectangleShape mBackDrop;
     sf::Texture mBackground;
+    sf::Sprite mBackDrop;
 };
 
 #endif

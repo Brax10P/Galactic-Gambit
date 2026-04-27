@@ -1,14 +1,21 @@
 #include "../header/welcome.h"
 Welcome::Welcome()
 {
-    mBackDrop.setSize(sf::Vector2f(1280.f, 720.f));
+    
+
     if (!mBackground.loadFromFile("assets/Background 1.png"))
     {
         std::cout << "Error opening background file\n";
         exit(2);
     }
 
-    mBackDrop.setTexture(&mBackground);
+    mBackDrop.setTexture(mBackground);
+    sf::Vector2u size = mBackground.getSize();
+
+    mBackDrop.setScale(
+    1280.f / size.x,
+    720.f / size.y
+    );
     if (!mFont.loadFromFile("assets/VintageCharm-Regular.otf"))
     {
         std::cout<<"Error opening file\n";

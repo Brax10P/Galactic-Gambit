@@ -44,7 +44,6 @@ private:
     Play mGame;
     Results mResults;
     HowTo mHowTo;
-   
 };
 
 class Deck

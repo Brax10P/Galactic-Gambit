@@ -29,6 +29,7 @@ public:
     void setTextSize (int size);
     void setColorTextNormal(sf::Color textNormalColor){mTextNormal = textNormalColor;};
     void setColorTextHover(sf::Color textHoverColor){mTextHover = textHoverColor;};
+    void setTexturePaths(std::string normalPath, std::string hoverPath);
 
     sf::Vector2f getPosition(){return mPosition;};
     sf::Vector2f getDimensions(){return sf::Vector2f(mButton.getGlobalBounds().width, mButton.getGlobalBounds().height);};
@@ -51,6 +52,10 @@ private:
     sf::Font mFont;
     sf::Color mTextNormal;
     sf::Color mTextHover;
+    std::string mNormalPath = "assets/normalbutton.png";
+    std::string mHoverPath = "assets/hoveredbutton.png";
+
+    
 
 };
 #endif

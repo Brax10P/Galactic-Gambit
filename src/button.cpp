@@ -4,27 +4,19 @@
     //set color to White, position to {300,100}, set state to normal, and scale to 100%
     //set font for the text, set the size of the text to the half of Button size, set the origin to the middle of the text 
     //and set position at the middle of the button, assign “Push me!” as a string of the button
-Button::Button():Button("Push me!", {300,100}, {1,1}, sf::Color::White)
+Button::Button()
+    : Button("Push me!", {300.f, 100.f}, {100.f, 50.f}, sf::Color::White)
 {
-    mButton.setScale(1, 1);
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
-    mText.setCharacterSize(fontSize);
-    mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
-    mText.setPosition(
-        mPosition.x,
-        mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
-    );
-
 }
     //Constructor that sets button label to s, button position to the position,  button size to size (given in pixels), and button color to color.
 Button::Button(std::string s, sf::Vector2f position, sf::Vector2f size, sf::Color color)
 {
     if (!mTexture.loadFromFile("assets/normalbutton.png"))
     {
-        std::cout<<"Error opening file\n";
+        std::cout << "Error opening normalbutton.png\n";
         exit(1);
     }
-    // //create sprite that look like a button
+
     mButton.setTexture(mTexture);
     
     //get size of image
@@ -82,16 +74,22 @@ void Button::setPosition(sf::Vector2f position)
     );
 }
 //change button size to size (what else needs to be changed?)
-void Button::setSize(sf::Vector2f  size)
+void Button::setSize(sf::Vector2f size)
 {
-    sf::Vector2u imageSize=mTexture.getSize();
-    mButton.setScale(size.x/imageSize.x, size.y/imageSize.y);
-    //choose the font size based on button size (I choose half)
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    sf::Vector2u imageSize = mTexture.getSize();
+
+    if (imageSize.x == 0 || imageSize.y == 0)
+    {
+        std::cout << "Cannot resize button: texture not loaded\n";
+        return;
+    }
+
+    mButton.setScale(size.x / imageSize.x, size.y / imageSize.y);
+
+    unsigned int fontSize = mButton.getGlobalBounds().height / 2;
     mText.setCharacterSize(fontSize);
-    //set origin to the middle
-    mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
-    //set position at the middle of the button
+    mText.setOrigin(mText.getGlobalBounds().width / 2, mText.getGlobalBounds().height / 2);
+
     mText.setPosition(
         mPosition.x,
         mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
@@ -181,16 +179,21 @@ void Button::update()
     case normal:
         mButton.setRotation(0);
         mText.setFillColor(mTextNormal);
-        mTexture.loadFromFile("assets/normalbutton.png");
+        mTexture.loadFromFile(mNormalPath);
+        mButton.setTexture(mTexture);
         break;
+
     case hovered:
         mButton.setRotation(0);
         mText.setFillColor(mTextHover);
-        mTexture.loadFromFile("assets/hoveredbutton.png");
+        mTexture.loadFromFile(mHoverPath);
+        mButton.setTexture(mTexture);
         break;
+
     case clicked:
-        //mButton.setRotation(180);
         mText.setFillColor(mTextHover);
+        mTexture.loadFromFile(mHoverPath);
+        mButton.setTexture(mTexture);
         break;
     }
 }
@@ -216,4 +219,32 @@ void Button::setTextSize (int size)
         mPosition.x,
         mPosition.y + mButton.getGlobalBounds().height / 2.f + 5.f
     );
+}
+
+/**
+ * @brief Sets button png to normal/hovered
+ * 
+ * @param normalPath 
+ * @param hoverPath 
+ */
+void Button::setTexturePaths(std::string normalPath, std::string hoverPath)
+{
+    mNormalPath = normalPath;
+    mHoverPath = hoverPath;
+
+    if (!mTexture.loadFromFile(mNormalPath))
+    {
+        std::cout << "Error opening file\n";
+        exit(1);
+    }
+
+    mButton.setTexture(mTexture);
+
+    sf::Vector2u imageSize = mTexture.getSize();
+    if (imageSize.x == 0 || imageSize.y == 0)
+    {
+        std::cout << "Texture has invalid size\n";
+        exit(1);
+    }    
+    mButton.setOrigin(imageSize.x / 2.f, imageSize.y / 2.f);
 }

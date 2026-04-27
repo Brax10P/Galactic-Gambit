@@ -29,6 +29,7 @@ HowTo::HowTo()
     mValues.setPosition({275, 150});
 
     mBack.setText("Go Back");
+    mBack.setTexturePaths("assets/normalbutton.png", "assets/hoveredbutton.png");
     mBack.setPosition({1200, 610});
     mBack.setSize({150,150});
     mBack.setTextSize(30);
