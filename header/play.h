@@ -44,8 +44,34 @@ private:
     int mTileHeight;
     int mTileWidth;
 
+    // chips tile variables
+    int mChipsHeight;
+    int mChipsWidth;
+
+    // chip stack base offset variables
+    float mMoon1OffsetX;
+    float mMoon1OffsetY;
+
+    float mVenus5OffsetX;
+    float mVenus5OffsetY;
+
+    float mEarth10OffsetX;
+    float mEarth10OffsetY;
+
+    float mMars20OffsetX;
+    float mMars20OffsetY;
+
+    float mSaturn50OffsetX;
+    float mSaturn50OffsetY;
+
+    float mNeptune100OffsetX;
+    float mNeptune100OffsetY;
+
     float mAlienBaseX;
     float mAlienBaseY;
+
+    float mChipsBaseX;
+    float mChipsBaseY;
 
     int mMoon1;
     int mVenus5;
@@ -58,22 +84,18 @@ private:
     sf::Sprite mAlienHead;
 
     // individual chip stacks class variables
-    sf::Texture mMoon1Texture;
+    sf::Texture mChipsTexture;
     sf::Sprite mMoon1Stack;
 
-    sf::Texture mVenus5Texture;
     sf::Sprite mVenus5Stack;
 
-    sf::Texture mEarth10Texture;
+    
     sf::Sprite mEarth10Stack;
 
-    sf::Texture mMars20Texture;
     sf::Sprite mMars20Stack;
 
-    sf::Texture mSaturn50Texture;
     sf::Sprite mSaturn50Stack;
 
-    sf::Texture mNeptune100Texture;
     sf::Sprite mNeptune100Stack;
 
     //ufo buttons
