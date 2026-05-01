@@ -17,11 +17,11 @@ Play::Play()
         exit(2);
     }
 
-    if (!mChipsTexture.loadFromFile("assets/game screen/chip stacks png.png"))
-    {
-        std::cout << "Error opening alien head file\n";
-        exit(2);
-    }
+    // if (!mChipsTexture.loadFromFile("assets/game screen/chip stacks png.png"))
+    // {
+    //     std::cout << "Error opening alien head file\n";
+    //     exit(2);
+    // }
 
     //UFO buttons
     m1.setTexturePaths("assets/game screen/ufonormal.png","assets/game screen/ufohovered.png");
@@ -54,10 +54,11 @@ Play::Play()
     m100.setPosition({1070, 555});
     m100.setSize({200, 200});
     
-
-    
-    
-    
+    // setupDeck();
+    // for(int i = 0; i < 2; i++)
+    // {
+    //     dealPlayerHand();
+    // }
 
     // attaches texture to sprite
     mAlienHead.setTexture(mAlienTexture);
@@ -83,8 +84,6 @@ Play::Play()
     // sets starting expression
     setAlienHead(neutral);
 
-
-
     // code below here for setting base chip stack stuff
     
     // attaches textures to sprites
@@ -99,7 +98,7 @@ Play::Play()
     
 
     // gets image size
-    sf::Vector2u size = mMoon1Texture.getSize();
+    // sf::Vector2u size = mMoon1Texture.getSize();
 
     // calculate tile size so we dont have to manually pinpoint each heads pixels (3x3 grid)
 
@@ -180,7 +179,8 @@ void Play::render(sf::RenderWindow& window)
     window.draw(m50);
     window.draw(m100);
     window.draw(mAlienHead);
-    
+    // window.draw(mCardOne);
+
     // legacy code 
     // window.draw(mFrame);
     // window.draw(mRules);
@@ -291,12 +291,12 @@ void Play::setChipStacks(int clickedChip)
 }
 void Play::displayChipStacks()
 {
-    mAlienHead.setTextureRect(sf::IntRect(0, h, w, h));
-    mAlienHead.setPosition(x, y);
-    break;
+    // mAlienHead.setTextureRect(sf::IntRect(0, h, w, h));
+    // mAlienHead.setPosition(x, y);
+    // break;
 
-    mMoon1Stack.setTextureRect(sf::);
-    mMoon1Stack.setPosition(x,y);
+    // mMoon1Stack.setTextureRect(sf::);
+    // mMoon1Stack.setPosition(x,y);
 
 
     sf::Texture mMoon1Texture;
@@ -316,6 +316,127 @@ void Play::displayChipStacks()
 
     sf::Texture mNeptune100Texture;
     sf::Sprite mNeptune100Stack;
+}
+
+void Play::setupDeck()
+{
+    unsigned deckShuffle = std::chrono::system_clock::now().time_since_epoch().count();
+                            // Pretty much this will randomize the deck using
+                            // the time in miliseconds as a seed
+                            // mainly used this to be able to keep the shuffle
+                            // the exact same for both so a 2 card doesn't end up with 11
+
+    vector<int> cardValue = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 
+                             2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 
+                             2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+                             2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+                            // First line is first suite, second is second suite, so on so forth
+    
+    loadcardSprites();
+
+    shuffle(cardValue.begin(), cardValue.end(), std::default_random_engine(deckShuffle));
+    shuffle(cardSprites.begin(), cardSprites.end(), std::default_random_engine(deckShuffle));
+}
+
+void Play::setupDealerDeck()
+{
+     unsigned deckShuffle = std::chrono::system_clock::now().time_since_epoch().count();
+                            // Pretty much this will randomize the deck using
+                            // the time in miliseconds as a seed
+                            // mainly used this to be able to keep the shuffle
+                            // the exact same for both so a 2 card doesn't end up with 11
+
+    vector<int> cardDealerValue = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 
+                                   2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 
+                                   2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+                                   2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+                            // First line is first suite, second is second suite, so on so forth
+    
+    loadcardSprites();
+
+    shuffle(cardValue.begin(), cardValue.end(), std::default_random_engine(deckShuffle + 1));
+    shuffle(cardSprites.begin(), cardSprites.end(), std::default_random_engine(deckShuffle + 1));
+}
+
+void Play::loadcardSprites()
+{
+    // section out cards from sprite sheet and store them in cardSprite vector
+    cardSpriteSheet.loadFromFile("assets/galactic_gambit_cards.png");
+
+        // These two are for adding the difference in the for loops
+        // just added them here for simplicity sake, if we want to make them
+        // private variables that is an option as well
+    int xDiff = 0;
+
+    // for loops below loading in one line, jumping to next, loading in next
+    // there is a 41 pixel difference between each card horizontally
+    for(int j = 0; j < 13; j++) // clubs being loaded
+    {
+        sf::Sprite cardSprite;
+        sf::Sprite cardDealerSprite;
+        cardSprite.setTexture(cardSpriteSheet);
+        cardSprite.setTextureRect(sf::IntRect((10 + xDiff), (16), (40), (50)));
+        cardSprite.setOrigin((5.f), (8.f));
+        cardSprites.push_back(cardSprite);
+        cardDealerSprites.push_back(cardDealerSprite);
+        xDiff = xDiff + 41;
+    }
+        
+    xDiff = 0;
+
+    for(int j = 0; j < 13; j++) // hearts being loaded
+    {
+        sf::Sprite cardSprite;
+        sf::Sprite cardDealerSprite;
+        cardSprite.setTexture(cardSpriteSheet);
+        cardSprite.setTextureRect(sf::IntRect((10 + xDiff), (68), (40), (50)));
+        cardSprite.setOrigin((5.f), (8.f));
+        cardSprites.push_back(cardSprite);
+        cardDealerSprites.push_back(cardDealerSprite);
+        xDiff = xDiff + 41;
+    }
+    
+    xDiff = 0;
+
+    for(int j = 0; j < 13; j++) // spades being loaded
+    {
+        sf::Sprite cardSprite;
+        sf::Sprite cardDealerSprite;
+        cardSprite.setTexture(cardSpriteSheet);
+        cardSprite.setTextureRect(sf::IntRect((10 + xDiff), (121), (40), (50)));
+        cardSprite.setOrigin((5.f), (8.f));
+        cardSprites.push_back(cardSprite);
+        cardDealerSprites.push_back(cardDealerSprite);
+        xDiff = xDiff + 41;
+    }
+    
+    xDiff = 0;
+
+    for(int j = 0; j < 13; j++) // diamonds being loaded
+    {
+        sf::Sprite cardSprite;
+        sf::Sprite cardDealerSprite;
+        cardSprite.setTexture(cardSpriteSheet);
+        cardSprite.setTextureRect(sf::IntRect((10 + xDiff), (173), (43), (50)));
+        cardSprite.setOrigin((5.f), (8.f));
+        cardSprites.push_back(cardSprite);
+        cardDealerSprites.push_back(cardDealerSprite);
+        xDiff = xDiff + 41;
+    }
+
+}
+
+void Play::dealPlayerHand()
+{
+    mCardOne = cardSprites.back();
+    cardSprites.pop_back();
+    // mCardOne.setPosition({1070 + xDiff, 555});
+}
+
+void Play::dealDealerHand()
+{
+    mDealerCardOne = cardDealerSprites.back();
+    cardDealerSprites.pop_back();
 }
 
 /**
