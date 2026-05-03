@@ -42,20 +42,24 @@ public:
     void dealDealerHand();
 
     void setupDeck();       // - set the deck up using cardSprite and cardValue
-    void setupDealerDeck();
+    // void setupDealerDeck();
     void loadcardSprites(); // - load card sprites from sprite sheet
+    void drawAnotherCard();
+    void dealerTurn();
+    void drawDealerCard();
+    void resetGame();
+    bool shouldReturnToWelcome() const {return mReturnToWelcome;}
 
 private:
     //legacy code from cherry lab;
     Button mRestart;  
-    Button mRules;
     Button mResults;
     Button mExit;
     sf::RectangleShape mFrame;
     
     // newly added code for galactic gambit
-    sf::RectangleShape mBackDrop;
     sf::Texture mBackground;
+    sf::RectangleShape mBackDrop;
 
     // alien head class variables
     int mTileHeight;
@@ -122,14 +126,42 @@ private:
     Button m20;
     Button m50;
     Button m100;
+
+    //Blackjack buttons
+    Button mHit;
+    Button mStand;
+    Button mDeal;
+
+    //Blackjack logic
+    bool mRoundOver;
+    std::string mResultMessage;
+    sf::Font mFont;
+    sf::Text mResultText;
+    sf::Text mMoneyText;
+    sf::Text mBetText;
+    sf::Text mPlayerScoreText;
+    sf::Text mDealerScoreText;
+    int mPlayerAces;
+    int mDealerAces;
+    bool mRevealDealerCards;
+    sf::Texture mCardBackTexture;
+    sf::Sprite mCardBack;
+    bool mDealerDrawing;
+    float mDealerDrawTimer;
+    int mPlayerMoney;
+    int mCurrentBet;
+    bool mBettingPhase;
+    bool mGameOverDelay;
+    float mGameOverTimer;
+    bool mReturnToWelcome;
     
 
+    sf::Texture cardSpriteSheet;
     // deck cards/values
     vector<sf::Sprite> cardSprites; // - Used to hold the card sprites
     vector<int> cardValue;  // - holds the card's value based on the card
-    vector<sf::Sprite> cardDealerSprites;
-    vector<int> cardDealerValue;
-    sf::Texture cardSpriteSheet;
+    // vector<sf::Sprite> cardDealerSprites;
+    // vector<int> cardDealerValue;
 
     // Went with six JUST incase
     sf::Sprite mCardOne;
@@ -149,6 +181,9 @@ private:
 
     int mPlayerScore; // Add the values from "cardValue" / "cardDealerValue" vectors for overall score
     int mDealerScore;
+    int mPlayerCardCount;
+    int mDealerCardCount;
+
 };
 
 

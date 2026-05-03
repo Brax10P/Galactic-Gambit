@@ -13,10 +13,10 @@ public:
 
 
 private:
+    sf::Font mFont;
     sf::Text mRules;
     sf::Text mValues;
     sf::RectangleShape mBackDrop;
-    sf::Font mFont;
     Button mBack; 
     sf::Texture mBackground;
 };
