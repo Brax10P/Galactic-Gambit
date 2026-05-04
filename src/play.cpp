@@ -69,6 +69,8 @@ Play::Play()
     mDealerScoreText.setFillColor(sf::Color::White);
     mDealerScoreText.setPosition({400.f, 325.f});
 
+
+
     //initializes all the blackjack logic 
     mPlayerScore = 0;
     mDealerScore = 0;
@@ -83,6 +85,8 @@ Play::Play()
     mBettingPhase = true;
     mGameOverDelay = false;
     mGameOverTimer = 0.f;
+    mBustDelay = false;
+    mBustTimer = 0.f;
     mReturnToWelcome = false;
 
     // UFO buttons
@@ -239,38 +243,86 @@ State Play::handleInput(sf::Event &e, sf::RenderWindow &window)
     //code for betting phase (click UFOS, money goes in)
     if (mBettingPhase && !mRoundOver && !mDealerDrawing && m1.handleInput(e, window))
     {
-        mCurrentBet += 1;
-        setChipStacks(1);
+        if(mCurrentBet + 1 <= mPlayerMoney)
+        {
+            mCurrentBet += 1;
+            setChipStacks(1);
+        }
+        else
+        {
+            mResultMessage = "You don't have enough money";
+        }
+        
     }
 
     if (mBettingPhase && !mRoundOver && !mDealerDrawing && m5.handleInput(e, window))
     {
-        mCurrentBet += 5;
-        setChipStacks(5);
+        if(mCurrentBet + 5 <= mPlayerMoney)
+        {
+            mCurrentBet += 5;
+            setChipStacks(5);
+        }
+        else
+        {
+            mResultMessage = "You don't have enough money";
+        }
+        
     }
 
     if (mBettingPhase && !mRoundOver && !mDealerDrawing && m10.handleInput(e, window))
     {
-        mCurrentBet += 10;
-        setChipStacks(10);
+        if(mCurrentBet + 10 <= mPlayerMoney)
+        {
+            mCurrentBet += 10;
+            setChipStacks(10);
+        }
+        else
+        {
+            mResultMessage = "You don't have enough money";
+        }
+       
     }
 
     if (mBettingPhase && !mRoundOver && !mDealerDrawing && m20.handleInput(e, window))
     {
-        mCurrentBet += 20;
-        setChipStacks(20);
+        if(mCurrentBet + 20 <= mPlayerMoney)
+        {
+            mCurrentBet += 20;
+            setChipStacks(20);
+        }
+        else
+        {
+            mResultMessage = "You don't have enough money";
+        }
+        
     }
 
     if (mBettingPhase && !mRoundOver && !mDealerDrawing && m50.handleInput(e, window))
     {
-        mCurrentBet += 50;
-        setChipStacks(50);
+        if(mCurrentBet + 50 <= mPlayerMoney)
+        {
+            mCurrentBet += 50;
+            setChipStacks(50);
+        }
+        else
+        {
+            mResultMessage = "You don't have enough money";
+        }
+        
     }
 
     if (mBettingPhase && !mRoundOver && !mDealerDrawing && m100.handleInput(e, window))
     {
-        mCurrentBet += 100;
-        setChipStacks(100);
+        if(mCurrentBet + 100 <= mPlayerMoney)
+        {
+            mCurrentBet += 100;
+            setChipStacks(100);
+        }
+        else
+        {
+            mResultMessage = "You don't have enough money";
+        }
+        
     }
 
     //if there is at least $1 bet and user clicks deal button
@@ -322,18 +374,26 @@ State Play::handleInput(sf::Event &e, sf::RenderWindow &window)
         {
             mResultMessage = "Player busts!";
             mPlayerMoney -= mCurrentBet;
-            mRoundOver = true;
-            mCurrentBet = 0;
-            mMoon1 = 0;
-            mVenus5 = 0;
-            mEarth10 = 0;
-            mMars20 = 0;
-            mSaturn50 = 0;
-            mNeptune100 = 0;
-            displayChipStacks();
-            mBettingPhase = true;
-            mRoundOver = false;
             setAlienHead(laugh);
+
+            mRoundOver = true;
+            mBustDelay = true;
+            mBustTimer = 0.f;
+            
+            // mResultMessage = "Player busts!";
+            // mPlayerMoney -= mCurrentBet;
+            // mRoundOver = true;
+            // mCurrentBet = 0;
+            // mMoon1 = 0;
+            // mVenus5 = 0;
+            // mEarth10 = 0;
+            // mMars20 = 0;
+            // mSaturn50 = 0;
+            // mNeptune100 = 0;
+            // displayChipStacks();
+            // mBettingPhase = true;
+            // mRoundOver = false;
+            // setAlienHead(laugh);
         }
     }
 
@@ -356,7 +416,7 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
         mMoneyText.setString("Money: $" + std::to_string(mPlayerMoney));
 
         //once it hits 2 seconds, returns to welcome screen
-        if (mGameOverTimer >= 2.0f)
+        if (mGameOverTimer >= 5.0f)
         {
             mGameOverDelay = false;
             mPlayerMoney = 0;
@@ -365,6 +425,38 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
 
         return;
     }
+
+    if (mBustDelay)
+    {
+        mBustTimer += elapsedTime;
+
+        mPlayerScoreText.setString("Player: " + std::to_string(mPlayerScore));
+        mDealerScoreText.setString("Dealer: ?");
+        mMoneyText.setString("Money: $" + std::to_string(mPlayerMoney));
+        mBetText.setString("Bet: $" + std::to_string(mCurrentBet));
+        mResultText.setString(mResultMessage);
+
+        if (mBustTimer >= 2.5f)
+        {
+            mBustDelay = false;
+
+            mCurrentBet = 0;
+
+            mMoon1 = 0;
+            mVenus5 = 0;
+            mEarth10 = 0;
+            mMars20 = 0;
+            mSaturn50 = 0;
+            mNeptune100 = 0;
+            displayChipStacks();
+
+            mBettingPhase = true;
+            mRoundOver = false;
+            mResultMessage = "";
+        }
+
+    return;
+}
     
     //slight delay for dealer drawing cards so it looks better
     if (mDealerDrawing)
@@ -381,7 +473,13 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
             }
             else
             {
-                if (mDealerScore > 21)
+                if (mPlayerScore == 21)
+                {
+                    mResultMessage = "BlackJack!";
+                    mPlayerMoney += mCurrentBet * 1.5;
+                    setAlienHead(jackpot);
+                }
+                else if (mDealerScore > 21)
                 {
                     mResultMessage = "Dealer busts! You win!";
                     mPlayerMoney += mCurrentBet;
@@ -398,12 +496,6 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
                     mResultMessage = "Dealer wins!";
                     mPlayerMoney -= mCurrentBet;
                     setAlienHead(happy);
-                }
-                else if (mPlayerScore == 21)
-                {
-                    mResultMessage = "BlackJack!";
-                    mPlayerMoney += mCurrentBet * 1.5;
-                    setAlienHead(jackpot);
                 }
                 else
                 {
@@ -459,7 +551,27 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
 void Play::render(sf::RenderWindow &window)
 {
     // new code for galactic
+    // chip stack function is written in a way where tiles are only intentionally defined if the chip counter is > 0
+    // these if statments prevent the program from setting the individual chip objects with the entire chip stack png
     window.draw(mBackDrop);
+
+    if (mMoon1 != 0)
+        window.draw(mMoon1Stack);
+
+    if (mVenus5 != 0)
+        window.draw(mVenus5Stack);
+
+    if (mEarth10 != 0)
+        window.draw(mEarth10Stack);
+
+    if (mMars20 != 0)
+        window.draw(mMars20Stack);
+
+    if (mSaturn50 != 0)
+        window.draw(mSaturn50Stack);
+
+    if (mNeptune100 != 0)
+        window.draw(mNeptune100Stack);
     //draws UFO buttons when time to bet
     if (mBettingPhase)
     {
@@ -474,8 +586,8 @@ void Play::render(sf::RenderWindow &window)
     //draws cards and scores when betting ends
     if (!mBettingPhase)
     {
-        window.draw(mHit);
-        window.draw(mStand);
+        // window.draw(mHit);
+        // window.draw(mStand);
         window.draw(mCardOne);
         window.draw(mCardTwo);
         window.draw(mCardThree);
@@ -484,6 +596,9 @@ void Play::render(sf::RenderWindow &window)
         window.draw(mCardSix);
         window.draw(mPlayerScoreText);
         window.draw(mDealerScoreText);
+        window.draw(mHit);
+        window.draw(mStand);
+        window.draw(mHit);
         if (!mRevealDealerCards)
         {
             window.draw(mCardBack);
@@ -505,25 +620,6 @@ void Play::render(sf::RenderWindow &window)
     window.draw(mBetText);
     window.draw(mAlienHead);
 
-    // chip stack function is written in a way where tiles are only intentionally defined if the chip counter is > 0
-    // these if statments prevent the program from setting the individual chip objects with the entire chip stack png
-    if (mMoon1 != 0)
-        window.draw(mMoon1Stack);
-
-    if (mVenus5 != 0)
-        window.draw(mVenus5Stack);
-
-    if (mEarth10 != 0)
-        window.draw(mEarth10Stack);
-
-    if (mMars20 != 0)
-        window.draw(mMars20Stack);
-
-    if (mSaturn50 != 0)
-        window.draw(mSaturn50Stack);
-
-    if (mNeptune100 != 0)
-        window.draw(mNeptune100Stack);
 }
 /**
  * @brief function for setting alien emote based on different conditions
@@ -677,7 +773,7 @@ void Play::displayChipStacks()
 
     if (mMoon1 != 0)
     {
-        mMoon1 = 1;
+        
         mMoon1Stack.setTextureRect(sf::IntRect((mMoon1 - 1) * cellW + 5, 0 * cellH, cropW, cropH));
 
         mMoon1Stack.setPosition(x + mMoon1OffsetX, y + mMoon1OffsetY);
@@ -702,19 +798,19 @@ void Play::displayChipStacks()
         if (mEarth10 == 5)
         {
             mEarth10Stack.setTextureRect(sf::IntRect((mEarth10 - 1) * cellW, 2 * cellH - 5, cropW + 10, cropH - 5));
-            mEarth10Stack.setPosition(x + mEarth10OffsetX, y + mEarth10OffsetY);
+            mEarth10Stack.setPosition(x + mEarth10OffsetX, y + mEarth10OffsetY - 10);
         }
         else
         {
             mEarth10Stack.setTextureRect(sf::IntRect((mEarth10 - 1) * cellW, 2 * cellH - 5, cropW, cropH - 5));
-            mEarth10Stack.setPosition(x + mEarth10OffsetX, y + mEarth10OffsetY);
+            mEarth10Stack.setPosition(x + mEarth10OffsetX, y + mEarth10OffsetY - 10);
         }
     }
 
     if (mMars20 != 0)
     {
         mMars20Stack.setTextureRect(sf::IntRect((mMars20 - 1) * cellW, 3 * cellH - 10, cropW + 5, cropH));
-        mMars20Stack.setPosition(x + mMars20OffsetX, y + mMars20OffsetY);
+        mMars20Stack.setPosition(x + mMars20OffsetX, y + mMars20OffsetY - 10);
     }
 
     if (mSaturn50 != 0)
@@ -723,12 +819,12 @@ void Play::displayChipStacks()
         if (mSaturn50 == 5)
         {
             mSaturn50Stack.setTextureRect(sf::IntRect((mSaturn50 - 1) * cellW + 10, 4 * cellH - 10, cropW, cropH));
-            mSaturn50Stack.setPosition(x + mSaturn50OffsetX, y + mSaturn50OffsetY);
+            mSaturn50Stack.setPosition(x + mSaturn50OffsetX, y + mSaturn50OffsetY - 10);
         }
         else
         {
             mSaturn50Stack.setTextureRect(sf::IntRect((mSaturn50 - 1) * cellW, 4 * cellH - 10, cropW, cropH));
-            mSaturn50Stack.setPosition(x + mSaturn50OffsetX, y + mSaturn50OffsetY);
+            mSaturn50Stack.setPosition(x + mSaturn50OffsetX, y + mSaturn50OffsetY - 10);
         }
     }
 
@@ -739,13 +835,13 @@ void Play::displayChipStacks()
         {
             mNeptune100Stack.setTextureRect(sf::IntRect((mNeptune100 - 1) * cellW, 5 * cellH - 2, cropW + 10, cropH + 2));
 
-            mNeptune100Stack.setPosition(x + mNeptune100OffsetX - 10, y + mNeptune100OffsetY - 3);
+            mNeptune100Stack.setPosition(x + mNeptune100OffsetX - 10, y + mNeptune100OffsetY - 8);
         }
         else
         {
             mNeptune100Stack.setTextureRect(sf::IntRect((mNeptune100 - 1) * cellW, 5 * cellH - 2, cropW, cropH + 2));
 
-            mNeptune100Stack.setPosition(x + mNeptune100OffsetX, y + mNeptune100OffsetY);
+            mNeptune100Stack.setPosition(x + mNeptune100OffsetX, y + mNeptune100OffsetY - 5);
         }
     }
 }
@@ -1037,6 +1133,8 @@ void Play::resetGame()
     mReturnToWelcome = false;
     mGameOverDelay = false;
     mGameOverTimer = 0.f;
+    mBustDelay = false;
+    mBustTimer = 0.f;
 
     setAlienHead(neutral);
 }

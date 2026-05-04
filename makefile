@@ -29,3 +29,7 @@ obj/results.o: src/results.cpp header/results.h header/states.h header/button.h
 
 clean:
 	rm -f game *.o
+
+test: TESTS/test.cpp TESTS/catch_amalgamated.cpp src/play.cpp src/button.cpp header/play.h header/button.h header/states.h
+	$(CC) $(FLAGS) TESTS/test.cpp TESTS/catch_amalgamated.cpp src/play.cpp src/button.cpp -o test $(LINKS)
+	./test

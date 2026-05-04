@@ -50,6 +50,28 @@ public:
     void resetGame();
     bool shouldReturnToWelcome() const {return mReturnToWelcome;}
 
+    // FOR TESTS
+    // testing getters
+    int getPlayerMoney() const { return mPlayerMoney; }
+    int getCurrentBet() const { return mCurrentBet; }
+    int getPlayerScore() const { return mPlayerScore; }
+    int getDealerScore() const { return mDealerScore; }
+    int getPlayerCardCount() const { return mPlayerCardCount; }
+    bool getBettingPhase() const { return mBettingPhase; }
+    bool getRoundOver() const { return mRoundOver; }
+    std::string getResultMessage() const { return mResultMessage; }
+    int getDeckSize() const { return cardValue.size(); }
+    void setDeckForTest(const vector<int>& testDeck)
+    {
+        cardValue = testDeck;
+    }
+
+    sf::Vector2f getCardOnePosition() const { return mCardOne.getPosition(); }
+    sf::Vector2f getCardTwoPosition() const { return mCardTwo.getPosition(); }
+    sf::Vector2f getDealerCardOnePosition() const { return mDealerCardOne.getPosition(); }
+    sf::Vector2f getDealerCardTwoPosition() const { return mDealerCardTwo.getPosition(); }
+
+
 private:
     //legacy code from cherry lab;
     Button mRestart;  
@@ -154,6 +176,9 @@ private:
     bool mGameOverDelay;
     float mGameOverTimer;
     bool mReturnToWelcome;
+
+    bool mBustDelay;
+    float mBustTimer;
     
 
     sf::Texture cardSpriteSheet;
