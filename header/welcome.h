@@ -13,9 +13,9 @@ public:
 
 
 private:
+    sf::Font mFont;
     sf::Text mRules;
     sf::Text mHeader;
-    sf::Font mFont;
     Button mStart; 
     Button mHowTo; 
     sf::Texture mBackground;

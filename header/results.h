@@ -13,11 +13,11 @@ public:
 
 
 private:
+    sf::Font mFont;
     sf::Text mResults;
     Button mRules;
     Button mPlayAgain;  
     Button mLeave;
-    sf::Font mFont;
 };
 
 #endif

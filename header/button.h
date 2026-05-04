@@ -41,15 +41,15 @@ public:
     virtual void draw(sf::RenderTarget& target,sf::RenderStates states) const;
 
 private:
-    sf::Sprite mButton;
     sf::Texture mTexture;
+    sf::Sprite mButton;
     sf::Color mButtonColor;
     sf::Vector2f mPosition;
     sf::Uint32 mBtnState;
     
     //text
-    sf::Text mText;
     sf::Font mFont;
+    sf::Text mText;
     sf::Color mTextNormal;
     sf::Color mTextHover;
     std::string mNormalPath = "assets/normalbutton.png";
