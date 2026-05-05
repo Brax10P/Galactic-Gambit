@@ -1,3 +1,13 @@
+/**
+ * @file welcome.h
+ * @author Braxton, Felix, Hayden
+ * @brief header file for welcome screen 
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #ifndef WELCOME_H
 #define WELCOME_H
 #include "states.h"

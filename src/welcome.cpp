@@ -1,3 +1,13 @@
+/**
+ * @file welcome.cpp
+ * @author Braxton, Felix, Hayden
+ * @brief handles welcome screen on game startup
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include "../header/welcome.h"
 Welcome::Welcome()
 {
@@ -46,6 +56,7 @@ Welcome::Welcome()
     mHowTo.setColorTextNormal(sf::Color::Blue);
     //mStart.setColor(sf::Color(255,255,0));
 }
+
 State Welcome::handleInput(sf::Event& e, sf::RenderWindow& window)
 {
     if (mStart.handleInput(e, window))
@@ -58,11 +69,13 @@ State Welcome::handleInput(sf::Event& e, sf::RenderWindow& window)
     }
     return welcome;
 }
+
 void Welcome::update()
 {
     mStart.update();
     mHowTo.update();
 }
+
 void Welcome::render(sf::RenderWindow& window)
 {
     window.draw(mBackDrop);

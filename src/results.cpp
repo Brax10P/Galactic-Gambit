@@ -1,3 +1,13 @@
+/**
+ * @file results.cpp
+ * @author Braxton, Felix, Hayden
+ * @brief handles results screen logic, messages, and window functions
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include "../header/results.h"
 Results::Results()
 {

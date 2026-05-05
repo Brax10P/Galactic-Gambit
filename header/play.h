@@ -1,3 +1,13 @@
+/**
+ * @file play.h
+ * @author Hayden, Felix, Braxton
+ * @brief header file that encompasses all elements, functions, and assets coded or loaded for galactic gambit gameplay
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #ifndef PLAY_H
 #define PLAY_H
 #include "states.h"
@@ -11,7 +21,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 using std::vector;
-//#include "cherry.h"
 
 // enum for calling different alien emotes
 enum alienheadstate
@@ -21,17 +30,20 @@ enum alienheadstate
     jackpot, tearsJoy, tearsSad
 };
 
-
+/**
+ * @brief General play class that handles all functions and elements related to the gameplay of galactic gambit
+ * 
+ */
 class Play
 {
 public:
-    // legacy code
+    // legacy code from cherry lab
     Play();
     State handleInput(sf::Event& e,  sf::RenderWindow& window);
     void update(double elapsedTime, sf::RenderWindow& window);
     void render(sf::RenderWindow& window);
 
-    // new code
+    // new code written for galactic gambit
     void setAlienHead(alienheadstate state);
 
     void setChipStacks(int clickedChip);
@@ -42,7 +54,6 @@ public:
     void dealDealerHand();
 
     void setupDeck();       // - set the deck up using cardSprite and cardValue
-    // void setupDealerDeck();
     void loadcardSprites(); // - load card sprites from sprite sheet
     void drawAnotherCard();
     void dealerTurn();
@@ -65,7 +76,6 @@ public:
     {
         cardValue = testDeck;
     }
-
     sf::Vector2f getCardOnePosition() const { return mCardOne.getPosition(); }
     sf::Vector2f getCardTwoPosition() const { return mCardTwo.getPosition(); }
     sf::Vector2f getDealerCardOnePosition() const { return mDealerCardOne.getPosition(); }
@@ -92,6 +102,8 @@ private:
     int mChipsWidth;
 
     // chip stack base offset variables
+    // orignal offsets were infered based desired location, the individual display functions adjust offset manually
+    // as was necessary
     float mMoon1OffsetX;
     float mMoon1OffsetY;
 
@@ -110,12 +122,15 @@ private:
     float mNeptune100OffsetX;
     float mNeptune100OffsetY;
 
+    // same concept as the chips above but for the alien head location
+    // this is required as the head swaps based on game conditions
     float mAlienBaseX;
     float mAlienBaseY;
 
     float mChipsBaseX;
     float mChipsBaseY;
 
+    // chip counter variables, each can reach a maximum of 5 due to how their functions are written
     int mMoon1;
     int mVenus5;
     int mEarth10;
@@ -128,11 +143,11 @@ private:
 
     // individual chip stacks class variables
     sf::Texture mChipsTexture;
+    
     sf::Sprite mMoon1Stack;
 
     sf::Sprite mVenus5Stack;
 
-    
     sf::Sprite mEarth10Stack;
 
     sf::Sprite mMars20Stack;
@@ -163,17 +178,23 @@ private:
     sf::Text mBetText;
     sf::Text mPlayerScoreText;
     sf::Text mDealerScoreText;
+
     int mPlayerAces;
     int mDealerAces;
     bool mRevealDealerCards;
+
     sf::Texture mCardBackTexture;
     sf::Sprite mCardBack;
+
     bool mDealerDrawing;
     float mDealerDrawTimer;
+
     int mPlayerMoney;
     int mCurrentBet;
+
     bool mBettingPhase;
     bool mGameOverDelay;
+
     float mGameOverTimer;
     bool mReturnToWelcome;
 
@@ -182,13 +203,14 @@ private:
     
 
     sf::Texture cardSpriteSheet;
+
     // deck cards/values
     vector<sf::Sprite> cardSprites; // - Used to hold the card sprites
     vector<int> cardValue;  // - holds the card's value based on the card
     // vector<sf::Sprite> cardDealerSprites;
     // vector<int> cardDealerValue;
 
-    // Went with six JUST incase
+    // Went with six cards displayable
     sf::Sprite mCardOne;
     sf::Sprite mCardTwo;
     sf::Sprite mCardThree;
@@ -210,6 +232,5 @@ private:
     int mDealerCardCount;
 
 };
-
 
 #endif

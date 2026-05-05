@@ -1,3 +1,13 @@
+/**
+ * @file game.cpp
+ * @author Hayden, Braxton, Felix
+ * @brief Handles welcome screen and game startup
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include "../header/game.h"
 
 Game::Game()
@@ -6,7 +16,12 @@ Game::Game()
     mGameState = welcome;
 }
 
-// Handle events from input devices and the window
+
+/**
+ * @brief Handles events from input devices and the window
+ * 
+ * @param window 
+ */
 void Game::handleInput(sf::RenderWindow &window)
 {
     sf::Event event;
@@ -51,7 +66,12 @@ void Game::handleInput(sf::RenderWindow &window)
     }
 }
 
-// Update objects in the scene
+/**
+ * @brief Updates objects in the scene
+ * 
+ * @param elapsedTime 
+ * @param window 
+ */
 void Game::update(double elapsedTime, sf::RenderWindow &window)
 {
     switch (mGameState)
@@ -83,7 +103,12 @@ void Game::update(double elapsedTime, sf::RenderWindow &window)
     }
 }
 
-// Render objects from the scene onto the window
+
+/**
+ * @brief Renders objects from the scene onto the window
+ * 
+ * @param window 
+ */
 void Game::render(sf::RenderWindow &window)
 {
     window.clear(sf::Color::Black);
@@ -107,9 +132,3 @@ void Game::render(sf::RenderWindow &window)
     }
     window.display();
 }
-
-// Check if game is done, right now, we just checked if window is still open
-//  bool Game::isDone() const
-//  {
-//      return (!mWindow.isOpen());
-//  }

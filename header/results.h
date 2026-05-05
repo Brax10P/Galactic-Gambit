@@ -1,3 +1,13 @@
+/**
+ * @file results.h
+ * @author Hayden, Felix, Braxton
+ * @brief 
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #ifndef RESULTS_H
 #define RESULTS_H
 

@@ -1,7 +1,17 @@
+/**
+ * @file play.cpp
+ * @author Felix, Hayden, Braxton
+ * @brief .cpp file that handles all functions, assets, and files loaded in for galactic gambit gameplay
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include "../header/play.h"
 Play::Play()
 {
-    // new code for galctic game background
+    // code for galctic game background
     mBackDrop.setSize(sf::Vector2f(1280.f, 720.f));
     if (!mBackground.loadFromFile("assets/game screen/Poker in outer space.png"))
     {
@@ -9,13 +19,14 @@ Play::Play()
         exit(2);
     }
     mBackDrop.setTexture(&mBackground);
-
+    
+    // code for loading allen head texture map
     if (!mAlienTexture.loadFromFile("assets/game screen/Alien emoticons in astronaut helmets.png"))
     {
         std::cout << "Error opening alien head file\n";
         exit(2);
     }
-
+    // code for loading chip stack texture map
     if (!mChipsTexture.loadFromFile("assets/game screen/chip stacks png.png"))
     {
         std::cout << "Error opening chip stack image file\n";
@@ -24,6 +35,7 @@ Play::Play()
 
     mRevealDealerCards = false;
 
+    // code for loading back of card texture
     if (!mCardBackTexture.loadFromFile("assets/game screen/card back.png"))
     {
         std::cout << "Error opening card back file\n";
@@ -37,13 +49,14 @@ Play::Play()
     mCardBack.setScale(1.55f, 1.55f);
     mCardBack.setPosition({420, 182});
 
+    // code for loading font used in game
     if (!mFont.loadFromFile("assets/VintageCharm-Regular.otf"))
     {
         std::cout << "Error loading font\n";
         exit(2);
     }
 
-    //Code for setting the in game text (results, money, betsize, card scores)
+    //Code for setting the in game text (results, money, betsize, card scores named as appropriate)
     mResultText.setFont(mFont);
     mResultText.setCharacterSize(40);
     mResultText.setFillColor(sf::Color::White);
@@ -69,8 +82,6 @@ Play::Play()
     mDealerScoreText.setFillColor(sf::Color::White);
     mDealerScoreText.setPosition({400.f, 325.f});
 
-
-
     //initializes all the blackjack logic 
     mPlayerScore = 0;
     mDealerScore = 0;
@@ -89,7 +100,7 @@ Play::Play()
     mBustTimer = 0.f;
     mReturnToWelcome = false;
 
-    // UFO buttons
+    // UFO buttons for the player to select which chips they'd like to bet
     m1.setTexturePaths("assets/game screen/ufonormal.png", "assets/game screen/ufohovered.png");
     m1.setText("");
     m1.setPosition({190, 555});
@@ -120,7 +131,7 @@ Play::Play()
     m100.setPosition({1070, 555});
     m100.setSize({200, 200});
 
-    // Blackjack buttons
+    // Blackjack buttons (Hit, Stand, Deal)
     mHit.setText("Hit");
     mHit.setPosition({100, 100});
     mHit.setSize({150, 150});
@@ -136,6 +147,7 @@ Play::Play()
     mDeal.setSize({150, 150});
     mDeal.setColorTextNormal(sf::Color::Blue);
 
+    // intializes cards/ deck 
     setupDeck();
     mPlayerCardCount = 0;
     mDealerCardCount = 0;
@@ -146,28 +158,26 @@ Play::Play()
     // gets image size
     sf::Vector2u size = mAlienTexture.getSize();
 
-    // calculate tile size so we dont have to manually pinpoint each heads pixels (3x3 grid)
+    // calculate tile size so we dont have to manually pinpoint each alien heads pixels (3x3 grid)
     mTileWidth = size.x / 3;
     mTileHeight = size.y / 3;
 
-    // center origin for more intuitive adjustments
+    // center origin for aline head for more intuitive adjustments
     mAlienHead.setOrigin(mTileWidth / 2.f, mTileHeight / 2.f);
 
     // position of head on screen, these cordinates are specific to neutral
-    // mAlienHead.setPosition(590.f, 125.f);
     mAlienBaseX = 590.f;
     mAlienBaseY = 125.f;
 
-    // scaler if needed
+    // scaler for alien head size adjustment
     mAlienHead.setScale(0.65f, 0.65f);
 
-    // sets starting expression
+    // sets starting alien expression
     setAlienHead(neutral);
 
-    // code below here for setting base chip stack stuff
-
+    // code below here for setting base chip stack 
     // each chip stack sprite is changed by shifting the texture over to the next stack thus incrementing 1 chip at a time
-    // attaches textures to sprites
+    // attaches texture map to each sprite
     mMoon1Stack.setTexture(mChipsTexture);
     mVenus5Stack.setTexture(mChipsTexture);
     mEarth10Stack.setTexture(mChipsTexture);
@@ -175,7 +185,7 @@ Play::Play()
     mSaturn50Stack.setTexture(mChipsTexture);
     mNeptune100Stack.setTexture(mChipsTexture);
 
-    // some chips were rescaling for some reason, this is my attempt to force them to not do that
+    // some chips weren't scaling properly hence this manual setting of scale
     mMoon1Stack.setScale(1.f, 1.f);
     mVenus5Stack.setScale(1.f, 1.f);
     mEarth10Stack.setScale(1.f, 1.f);
@@ -199,7 +209,7 @@ Play::Play()
     mChipsBaseX = 10.f;
     mChipsBaseY = 500.f;
 
-    // Base offsets, not sure if ill modify here or in the function to line everything up
+    // Base offsets for each chip type based on infered location, individual adjustments occur within the display chip functions
     mMoon1OffsetX = 0.f;
     mMoon1OffsetY = 0.f;
 
@@ -222,6 +232,14 @@ Play::Play()
 
 }
 
+/**
+ * @brief this functions handles general player input/ betting and conditional messages relevant to game phase and other conditions
+ *        such as player bet, player money, etc
+ * 
+ * @param e 
+ * @param window 
+ * @return State 
+ */
 State Play::handleInput(sf::Event &e, sf::RenderWindow &window)
 {
     //if player money runs out
@@ -343,7 +361,7 @@ State Play::handleInput(sf::Event &e, sf::RenderWindow &window)
         mPlayerCardCount = 2;
         mDealerCardCount = 2;
 
-        //had to initialize other cards to blank sprites to prevent 3 cards being dealt
+        //initializes other cards to blank sprites
         //on the start of round 2
         mCardOne = sf::Sprite();
         mCardTwo = sf::Sprite();
@@ -379,21 +397,7 @@ State Play::handleInput(sf::Event &e, sf::RenderWindow &window)
             mRoundOver = true;
             mBustDelay = true;
             mBustTimer = 0.f;
-            
-            // mResultMessage = "Player busts!";
-            // mPlayerMoney -= mCurrentBet;
-            // mRoundOver = true;
-            // mCurrentBet = 0;
-            // mMoon1 = 0;
-            // mVenus5 = 0;
-            // mEarth10 = 0;
-            // mMars20 = 0;
-            // mSaturn50 = 0;
-            // mNeptune100 = 0;
-            // displayChipStacks();
-            // mBettingPhase = true;
-            // mRoundOver = false;
-            // setAlienHead(laugh);
+
         }
     }
 
@@ -406,6 +410,14 @@ State Play::handleInput(sf::Event &e, sf::RenderWindow &window)
 
     return game;
 }
+
+/**
+ * @brief handles delay timers so the user has time to read messages printed by the game. handles resetting applicable variables
+ *        as game conditions require such as if a player busts
+ * 
+ * @param elapsedTime 
+ * @param window 
+ */
 void Play::update(double elapsedTime, sf::RenderWindow &window)
 {
     //if game over delay is set, starts tracking time
@@ -455,8 +467,8 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
             mResultMessage = "";
         }
 
-    return;
-}
+        return;
+    }
     
     //slight delay for dealer drawing cards so it looks better
     if (mDealerDrawing)
@@ -464,6 +476,7 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
         mDealerDrawTimer += elapsedTime;
 
         //one second delay, logic for dealer drawing below
+        //dealer play style logic as well as different conditions for different outcomes such as blackjack/bust
         if (mDealerDrawTimer >= 1.0f)
         {
             if (mDealerScore < 17)
@@ -548,9 +561,14 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
     mResults.update();
     mExit.update();
 }
+
+/**
+ * @brief 
+ * 
+ * @param window 
+ */
 void Play::render(sf::RenderWindow &window)
 {
-    // new code for galactic
     // chip stack function is written in a way where tiles are only intentionally defined if the chip counter is > 0
     // these if statments prevent the program from setting the individual chip objects with the entire chip stack png
     window.draw(mBackDrop);
@@ -572,6 +590,7 @@ void Play::render(sf::RenderWindow &window)
 
     if (mNeptune100 != 0)
         window.draw(mNeptune100Stack);
+
     //draws UFO buttons when time to bet
     if (mBettingPhase)
     {
@@ -614,6 +633,7 @@ void Play::render(sf::RenderWindow &window)
         window.draw(mDealerCardFive);
         window.draw(mDealerCardSix);
     }
+
     //draws alien and money related texts
     window.draw(mResultText);
     window.draw(mMoneyText);
@@ -622,7 +642,8 @@ void Play::render(sf::RenderWindow &window)
 
 }
 /**
- * @brief function for setting alien emote based on different conditions
+ * @brief function for setting alien emote based on different conditions, this function is utilized by passing the enumerated 
+ *        head names to it
  *
  * @param state
  */
@@ -634,6 +655,7 @@ void Play::setAlienHead(alienheadstate state)
     float x = mAlienBaseX;
     float y = mAlienBaseY;
 
+    // individual head each have slighly different postions due to how the textures and tiles interact/ join together
     switch (state)
     {
     case happy:
@@ -683,8 +705,8 @@ void Play::setAlienHead(alienheadstate state)
     }
 }
 /**
- * @brief increments chip counter and calls displaychipStacks based on clickedChip which should be an int passed to this function when
- *        a chip denomination is clicked on the game screen
+ * @brief increments chip counter and calls displaychipStacks based on clickedChip which passes an int of appropriate denomination
+ *        to this function when a chip denomination is clicked on the game screen. 
  *
  * @param clickedChip
  */
@@ -754,7 +776,7 @@ void Play::setChipStacks(int clickedChip)
 }
 /**
  * @brief breaks up chip stack png into tiles, takes values of all chip counters and displays appropriate chip texture for each
- *        some specific chip stacks required manual adjustment (a lot of the 5 stacks for hwatever reason) uses base offsets
+ *        some specific chip stacks required manual adjustment  uses base offsets
  *        from constructor as a starting point then aproximates tiles based on image size.
  *
  */
@@ -846,14 +868,15 @@ void Play::displayChipStacks()
     }
 }
 
+/**
+ * @brief will randomize the deck using the time in miliseconds as a seed mainly used this to be able to keep the shuffle
+ *        the exact same for both so a 2 card doesn't end up with 11
+ * 
+ */
 void Play::setupDeck()
 {
     unsigned deckShuffle = std::chrono::system_clock::now().time_since_epoch().count();
-    // Pretty much this will randomize the deck using
-    // the time in miliseconds as a seed
-    // mainly used this to be able to keep the shuffle
-    // the exact same for both so a 2 card doesn't end up with 11
-
+    
     cardValue = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
                  2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
                  2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
@@ -867,10 +890,12 @@ void Play::setupDeck()
 }
 
 
-
+/**
+ * @brief section out cards from sprite sheet and store them in cardSprite vector for loading -> displaying
+ * 
+ */
 void Play::loadcardSprites()
 {
-    // section out cards from sprite sheet and store them in cardSprite vector
     cardSpriteSheet.loadFromFile("assets/galactic_gambit_cards.png");
 
     // These two are for adding the difference in the for loops
@@ -1074,7 +1099,7 @@ void Play::dealerTurn()
 }
 
 /**
- * @brief draw dealer card, same logic as dealanothercard
+ * @brief draw dealer card, same logic as dealanothercard but for the dealer
  * 
  */
 void Play::drawDealerCard()
@@ -1110,7 +1135,11 @@ void Play::drawDealerCard()
     mDealerCardCount++;
 }
 
-//reinitializes the logic variables 
+
+/**
+ * @brief reinitializes the logic variables 
+ * 
+ */
 void Play::resetGame()
 {
     mPlayerMoney = 500;
@@ -1138,4 +1167,3 @@ void Play::resetGame()
 
     setAlienHead(neutral);
 }
-

@@ -1,7 +1,7 @@
 /**
  * @file game.h
  * @author Braxton, Hayden, & Felix
- * @brief header file for game
+ * @brief header file for game running and window
  * @version 0.1
  * @date 2026-04-06
  * 

@@ -1,3 +1,13 @@
+/**
+ * @file button.h
+ * @author Hayden, Felix, Braxton
+ * @brief header file for button objects
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #ifndef BUTTON_H
 #define BUTTON_H
 #include <SFML/Graphics.hpp>

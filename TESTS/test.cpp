@@ -1,7 +1,15 @@
+/**
+ * @file test.cpp
+ * @author Hayden, Braxton, Felix
+ * @brief Test file for galactic gambit game logic
+ * @version 0.1
+ * @date 2026-05-04
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include "catch_amalgamated.hpp"
 #include "../header/play.h"
-
-
 
 TEST_CASE("Play initializes money and bet values correctly", "[Play initialization]")
 {
@@ -14,7 +22,6 @@ TEST_CASE("Play initializes money and bet values correctly", "[Play initializati
     REQUIRE(game.getBettingPhase() == true);
     REQUIRE(game.getRoundOver() == false);
 }
-
 
 TEST_CASE("resetGame resets money, bet, scores, and game state", "[resetGame]")
 {
@@ -45,7 +52,7 @@ TEST_CASE("dealPlayerHand removes two cards from deck value vector", "[deck]")
     REQUIRE(endingDeckSize == 50);
 }
 
-
+// tests check for card loaction
 TEST_CASE("dealPlayerHand gives player two cards and updates score", "[dealPlayerHand]")
 {
     Play game;
@@ -65,7 +72,7 @@ TEST_CASE("dealPlayerHand gives player two cards and updates score", "[dealPlaye
     REQUIRE(cardTwoPos.y == 500);
 }
 
-
+// tests check for card loaction
 TEST_CASE("dealDealerHand gives dealer two cards and updates score", "[dealDealerHand]")
 {
     Play game;
@@ -84,7 +91,7 @@ TEST_CASE("dealDealerHand gives dealer two cards and updates score", "[dealDeale
     REQUIRE(cardTwoPos.y == 325);
 }
 
-TEST_CASE("dealPlayerHand adds known card values to player score", "[known cards]")
+TEST_CASE("dealPlayerHand adds known card values to player score correctly", "[known cards]")
 {
     Play game;
 
@@ -112,7 +119,7 @@ TEST_CASE("drawAnotherCard reduces ace value if a bust would occur", "[known car
 {
     Play game;
 
-    game.setDeckForTest({5, 9, 11});    // 9 not 2
+    game.setDeckForTest({5, 9, 11});    
 
     game.dealPlayerHand();
 
@@ -123,6 +130,3 @@ TEST_CASE("drawAnotherCard reduces ace value if a bust would occur", "[known car
     REQUIRE(game.getPlayerScore() == 15);
     REQUIRE(game.getDeckSize() == 0);
 }
-
-
-
