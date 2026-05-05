@@ -30,6 +30,33 @@ enum alienheadstate
     jackpot, tearsJoy, tearsSad
 };
 
+class Dealer
+{
+protected:
+    int mStandValue;
+
+public:
+    Dealer()
+    {
+        mStandValue = 17;
+    }
+
+    bool shouldDraw(int dealerScore) const
+    {
+        return dealerScore < mStandValue;
+    }
+};
+
+class HardDealer : public Dealer
+{
+public:
+    HardDealer()
+    {
+        mStandValue = 18;
+    }
+};
+
+
 /**
  * @brief General play class that handles all functions and elements related to the gameplay of galactic gambit
  * 
@@ -88,6 +115,9 @@ private:
     Button mResults;
     Button mExit;
     sf::RectangleShape mFrame;
+
+    
+    
     
     // newly added code for galactic gambit
     sf::Texture mBackground;
@@ -181,6 +211,7 @@ private:
 
     int mPlayerAces;
     int mDealerAces;
+    Dealer mDealer;
     bool mRevealDealerCards;
 
     sf::Texture mCardBackTexture;

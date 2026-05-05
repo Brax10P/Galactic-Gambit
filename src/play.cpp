@@ -479,7 +479,8 @@ void Play::update(double elapsedTime, sf::RenderWindow &window)
         //dealer play style logic as well as different conditions for different outcomes such as blackjack/bust
         if (mDealerDrawTimer >= 1.0f)
         {
-            if (mDealerScore < 17)
+            
+            if (mDealer.shouldDraw(mDealerScore))
             {
                 drawDealerCard();
                 mDealerDrawTimer = 0.f;
